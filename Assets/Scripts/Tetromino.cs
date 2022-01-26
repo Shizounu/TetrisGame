@@ -7,13 +7,14 @@ public class Tetromino : MonoBehaviour
     [SerializeField] private float tickTime;
     public float timeScale;
     public bool isGrounded = false;
-    public static int GridWidth = 10;
-
     public GameObject[] minos;
 
     public bool isMinoInGrid(Vector2 pos){
-        return ((int)pos.x-1 >= 0 && (int)pos.x+1 <= GridWidth && (int)pos.y >= 0);
+        return ((pos.x  >= 0) && 
+                (pos.x  <= 20) && 
+                (pos.y  >= 0));
     }
+
     public bool isTetrominoInGrid(){
         for (int i = 0; i < minos.Length; i++){
             if(!isMinoInGrid(new Vector2(minos[i].transform.position.x,minos[i].transform.position.y)))
@@ -23,15 +24,22 @@ public class Tetromino : MonoBehaviour
     }
 
 
-
     //rotates the tetromino
     public void rotateClockwise(){
         transform.Rotate(new Vector3(0,0,90));
         transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), transform.position.y);
+
+        if(!isTetrominoInGrid()){
+            transform.Rotate(new Vector3(0,0,-90));
+        }
     }
     public void rotateCounterClockwise(){
         transform.Rotate(new Vector3(0,0,-90));
         transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), transform.position.y);
+
+        if(!isTetrominoInGrid()){
+            transform.Rotate(new Vector3(0,0,90));
+        }
     }
 
     //moves the object left/right
@@ -42,9 +50,7 @@ public class Tetromino : MonoBehaviour
         if(!isTetrominoInGrid())
             transform.position -= new Vector3(dir,0,0);
     }
-
-    private void Update()
-    {
+    public void moveDown(){
         if (!isGrounded)
         {
             tickTime += Time.deltaTime * timeScale;
@@ -60,5 +66,10 @@ public class Tetromino : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void Update()
+    {
+        moveDown();
     }
 }
