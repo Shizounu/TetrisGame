@@ -15,7 +15,6 @@ public class Tetromino : MonoBehaviour
     public bool isMinoPositionValid(Vector2 pos){
         //Checks if minos is in bound
         if (!((pos.x  >= 0) && (pos.x + .5f  <= 10) && (pos.y  > 0))){
-            Debug.Log($"Mino at {pos} is outside the grid");
             return false;
         }
 
@@ -33,7 +32,6 @@ public class Tetromino : MonoBehaviour
         }
         return true;
     }
-
 
     //rotates the tetromino
     public void rotateClockwise(){
@@ -61,12 +59,20 @@ public class Tetromino : MonoBehaviour
         transform.position += new Vector3(dir,0,0);
         if(!isTetrominoPositionValid()){
             transform.position -= new Vector3(dir,0,0);
-            Debug.Log("I hit a wall while shifting");
         }else
             manager.updateBoard(this);
 
     }
     
+    public void hardDrop(){
+        while(isTetrominoPositionValid()){
+            transform.position += Vector3.down;
+        }
+        transform.position -= Vector3.down;
+        isGrounded = true;
+        manager.updateBoard(this);
+    }
+
     private void Update(){
         
         if (!isGrounded){

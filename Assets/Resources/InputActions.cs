@@ -144,17 +144,6 @@ public class @InputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""8b3b4c42-72bc-4568-a942-d67500e0a30d"",
-                    ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Hard Drop"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""8afb51e8-1968-479a-845c-30be31168e8a"",
                     ""path"": ""<Keyboard>/ctrl"",
                     ""interactions"": """",

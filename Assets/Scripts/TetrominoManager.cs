@@ -18,19 +18,49 @@ public class TetrominoManager : MonoBehaviour
 
 
     public void updateBoard(Tetromino tetromino){
+        bool boardDirty = false;
         //Delete the old minos of the previous iteration
-        for (int y = 0; y < 20; y++)
-            for (int x = 0; x < 10; x++)
+        for (int y = 0; y < 20; y++){
+            bool isLineFilled = true;
+            for (int x = 0; x < 10; x++){
                 if(filledMinos[x,y] != null && filledMinos[x,y].parent == tetromino.transform){
                     filledMinos[x,y] = null;
                 } 
 
+                if(filledMinos[x,y] == null){
+                    isLineFilled = false;
+                }
+            }
+
+            //Delete filled line
+            if(isLineFilled){
+                boardDirty = true;
+                for (int x = 0; x < 10; x++)
+                    Destroy(filledMinos[x, y].gameObject);
+            
+                for (int y1 = y; y1 < 20; y1++){
+                    for (int x = 0; x < 10; x++){
+                        if(y1 + 1 <= 20){
+                            filledMinos[x,y1] = filledMinos[x,y1+1];
+                            if(filledMinos[x,y1] != null)
+                                filledMinos[x,y1].position += Vector3.down;
+                        }
+                        else
+                            filledMinos[x,y1] = null;
+                    }
+                }
+            }
+
+        }
         //Write the new minos into the board
         foreach (GameObject mino in tetromino.minos){
             Vector2 pos = new Vector2(Mathf.Round(mino.transform.position.x - .5f), Mathf.Round(mino.transform.position.y - .5f));
             if(pos.y < 20)
                 filledMinos[(int)pos.x,(int)pos.y] = mino.transform;
         }
+
+        if(boardDirty)
+            updateBoard(tetromino);
     }
 
     public Transform getFilledMino(Vector2 pos){
@@ -54,6 +84,14 @@ public class TetrominoManager : MonoBehaviour
         input.Tetris.Move.performed += ctx => activeTetromino.shift((int)ctx.ReadValue<float>());
         input.Tetris.RotateClockwise.performed += _ => activeTetromino.rotateClockwise();
         input.Tetris.RotateCounterclockwise.performed += _ => activeTetromino.rotateCounterClockwise();
+
+        input.Tetris.SoftDrop.performed += _ => { 
+            activeTetromino.timeScale *= 2;
+        };
+        input.Tetris.SoftDrop.canceled += _ => {
+            activeTetromino.timeScale /= 2;
+        };
+        input.Tetris.HardDrop.performed += _ => activeTetromino.hardDrop();
     }
     private void OnEnable() => input.Enable();
     private void OnDisable() => input.Disable();
