@@ -34,9 +34,9 @@ public class TetrominoManager : MonoBehaviour
         }
     }
     public Transform getFilledMino(Vector2 pos){
-        if(pos.y > 19)
+        if(pos.y > 20)
             return null;
-        return filledMinos[Mathf.RoundToInt(pos.x),Mathf.RoundToInt(pos.y)];
+        return filledMinos[Mathf.RoundToInt(pos.x -.5f),Mathf.RoundToInt(pos.y-.5f)];
     }
     private void newTetromino(){
         Tetromino go = Instantiate(TetrominoPrefabs[Random.Range(0,TetrominoPrefabs.Count)], new Vector3(4f,19f), new Quaternion()).GetComponent<Tetromino>();
@@ -44,7 +44,6 @@ public class TetrominoManager : MonoBehaviour
         activeTetromino = go;
         go.manager = this;
     }
-
     private void Awake() {
         //Instantiate references
         input = new InputActions();
