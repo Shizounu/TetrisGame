@@ -23,7 +23,6 @@ public class TetrominoManager : MonoBehaviour
             for (int x = 0; x < 10; x++)
                 if(filledMinos[x,y] != null && filledMinos[x,y].parent == tetromino.transform){
                     filledMinos[x,y] = null;
-                Debug.Log(string.Format("Cleared mino at ({0},{1})",x,y));
                 } 
 
         //Write the new minos into the board
@@ -33,11 +32,14 @@ public class TetrominoManager : MonoBehaviour
                 filledMinos[(int)pos.x,(int)pos.y] = mino.transform;
         }
     }
+
     public Transform getFilledMino(Vector2 pos){
         if(pos.y > 20)
             return null;
-        return filledMinos[Mathf.RoundToInt(pos.x -.5f),Mathf.RoundToInt(pos.y-.5f)];
+        return filledMinos[Mathf.RoundToInt(pos.x -.5f), Mathf.RoundToInt(pos.y-.5f)];
     }
+
+
     private void newTetromino(){
         Tetromino go = Instantiate(TetrominoPrefabs[Random.Range(0,TetrominoPrefabs.Count)], new Vector3(4f,19f), new Quaternion()).GetComponent<Tetromino>();
         go.timeScale = gameSpeed;
