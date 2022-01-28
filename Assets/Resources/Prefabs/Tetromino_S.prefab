@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8010540709196823104}
   - component: {fileID: 8519937314675670399}
   m_Layer: 0
-  m_Name: mino_s (1)
+  m_Name: TopR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 31083219555785639}
   - component: {fileID: 2531657260100949590}
   m_Layer: 0
-  m_Name: mino_s
+  m_Name: Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 1361438576614596475}
   - component: {fileID: 7937925453784933753}
   m_Layer: 0
-  m_Name: mino_s (3)
+  m_Name: Bot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -295,11 +295,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tickTime: 0
   timeScale: 1
+  isGrounded: 0
   minos:
   - {fileID: 3071938451692018054}
   - {fileID: 1312335460114022375}
   - {fileID: 7712782770848502091}
   - {fileID: 3925398395264886229}
+  manager: {fileID: 0}
 --- !u!1 &7712782770848502091
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,7 +313,7 @@ GameObject:
   - component: {fileID: 8588006545201814700}
   - component: {fileID: 4479799170051737819}
   m_Layer: 0
-  m_Name: mino_s (2)
+  m_Name: BotL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

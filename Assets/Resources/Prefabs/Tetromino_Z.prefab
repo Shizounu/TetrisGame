@@ -55,6 +55,7 @@ MonoBehaviour:
   - {fileID: 6499003406138571171}
   - {fileID: 7554346479435611685}
   - {fileID: 3902724424809553265}
+  manager: {fileID: 0}
 --- !u!1 &3902724424809553265
 GameObject:
   m_ObjectHideFlags: 0
@@ -66,7 +67,7 @@ GameObject:
   - component: {fileID: 363643646204071358}
   - component: {fileID: 5196661594955686999}
   m_Layer: 0
-  m_Name: mino_z (3)
+  m_Name: BotR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,7 +149,7 @@ GameObject:
   - component: {fileID: 8283667398694996190}
   - component: {fileID: 1304268918076403242}
   m_Layer: 0
-  m_Name: mino_z (1)
+  m_Name: TopL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -230,7 +231,7 @@ GameObject:
   - component: {fileID: 5709578233112852870}
   - component: {fileID: 5994640733533410689}
   m_Layer: 0
-  m_Name: mino_z
+  m_Name: Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -312,7 +313,7 @@ GameObject:
   - component: {fileID: 8047938548839567642}
   - component: {fileID: 3619870033533798057}
   m_Layer: 0
-  m_Name: mino_z (2)
+  m_Name: Bot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3187507310844490474}
   - component: {fileID: 3394722434654154273}
   m_Layer: 0
-  m_Name: mino_j (2)
+  m_Name: Bot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,12 +27,9 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.5, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 8536891195663514694}
-  - {fileID: 8756674624194854291}
-  - {fileID: 7951590086664617921}
+  m_Children: []
   m_Father: {fileID: 1518629261614528967}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3394722434654154273
 SpriteRenderer:
@@ -96,7 +93,7 @@ GameObject:
   - component: {fileID: 8536891195663514694}
   - component: {fileID: 6515064454331535470}
   m_Layer: 0
-  m_Name: mino_j
+  m_Name: Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -110,10 +107,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1429142037553174103}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalPosition: {x: 0.5, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 3187507310844490474}
+  m_Father: {fileID: 1518629261614528967}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6515064454331535470
@@ -195,7 +192,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 8536891195663514694}
+  - {fileID: 8756674624194854291}
   - {fileID: 3187507310844490474}
+  - {fileID: 7951590086664617921}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -213,11 +213,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tickTime: 0
   timeScale: 1
+  isGrounded: 0
   minos:
   - {fileID: 1429142037553174103}
   - {fileID: 7383846610429558043}
   - {fileID: 206897495220230849}
   - {fileID: 3640642347732665269}
+  manager: {fileID: 0}
 --- !u!1 &3640642347732665269
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,7 +231,7 @@ GameObject:
   - component: {fileID: 7951590086664617921}
   - component: {fileID: 8136843481550229898}
   m_Layer: 0
-  m_Name: mino_j (3)
+  m_Name: BotL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -243,11 +245,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3640642347732665269}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1, y: 0, z: 0}
+  m_LocalPosition: {x: -0.5, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 3187507310844490474}
-  m_RootOrder: 2
+  m_Father: {fileID: 1518629261614528967}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8136843481550229898
 SpriteRenderer:
@@ -311,7 +313,7 @@ GameObject:
   - component: {fileID: 8756674624194854291}
   - component: {fileID: 2854734698568333080}
   m_Layer: 0
-  m_Name: mino_j (1)
+  m_Name: Mid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -325,10 +327,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7383846610429558043}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 3187507310844490474}
+  m_Father: {fileID: 1518629261614528967}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2854734698568333080
