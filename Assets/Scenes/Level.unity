@@ -3806,7 +3806,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heldTetromino: {fileID: 0}
   activeTetromino: {fileID: 0}
-  gameSpeed: 1
+  hasLost: 0
+  destroyedLines: 0
   TetrominoPrefabs:
   - {fileID: 7833688568892935806, guid: 2813fcce7b3d7344f85e0d03628fee98, type: 3}
   - {fileID: 3520386121980399968, guid: 06cd4a8e5abf17d49abb308cba6cc455, type: 3}

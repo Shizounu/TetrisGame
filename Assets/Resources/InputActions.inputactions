@@ -46,14 +46,6 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Pause",
-                    "type": "Button",
-                    "id": "c466a5dd-0652-49af-8c35-bc655f0c5cac",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "Soft Drop",
                     "type": "Button",
                     "id": "56351f74-2a01-4882-8fbd-7f38a08cf31c",
@@ -175,7 +167,34 @@
                 },
                 {
                     "name": "",
-                    "id": "3ae15ea7-b759-4d43-96fb-73f9c6437676",
+                    "id": "4af4a2ec-de76-46e6-b854-833b3550a63e",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Soft Drop",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Menu",
+            "id": "f85f0af3-7112-4e4d-a6e1-b4f63157c08c",
+            "actions": [
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "197149fc-e8d8-4b49-9838-b5ce2b6c55d7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "89355b15-6c42-4c41-9d00-070a2872cade",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
@@ -186,23 +205,12 @@
                 },
                 {
                     "name": "",
-                    "id": "40b63432-8bf5-416c-8bb2-11455dd11c33",
+                    "id": "ac517a8a-a618-472a-9eab-f1398a75b192",
                     "path": "<Keyboard>/f1",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Pause",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4af4a2ec-de76-46e6-b854-833b3550a63e",
-                    "path": "<Keyboard>/downArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Soft Drop",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

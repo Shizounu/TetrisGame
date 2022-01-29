@@ -2,21 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.Linq;
 public class TetrominoManager : MonoBehaviour
 {
-    #region variables
+   #region variables
     [Header("Working Variables")]
     public Tetromino heldTetromino;
     public Tetromino activeTetromino;  
-    public float gameSpeed = 1;
-
+    public float gameSpeed{
+        get{return (1 + (destroyedLines / 15));}
+    }
+    public bool hasLost = false;
+    public float destroyedLines = 0;
+    public bool isPaused = false;
     [Header("References")]
     public InputActions input;
     public List<GameObject> TetrominoPrefabs;
     public Transform[,] filledMinos;
+
     #endregion
 
-
+   #region GameManagment managment
     public void updateBoard(Tetromino tetromino){
         bool boardDirty = false;
         //Delete the old minos of the previous iteration
@@ -35,12 +41,13 @@ public class TetrominoManager : MonoBehaviour
             //Delete filled line
             if(isLineFilled){
                 boardDirty = true;
+                destroyedLines++;
                 for (int x = 0; x < 10; x++)
                     Destroy(filledMinos[x, y].gameObject);
             
                 for (int y1 = y; y1 < 20; y1++){
                     for (int x = 0; x < 10; x++){
-                        if(y1 + 1 <= 20){
+                        if(y1 + 1 < 20){
                             filledMinos[x,y1] = filledMinos[x,y1+1];
                             if(filledMinos[x,y1] != null)
                                 filledMinos[x,y1].position += Vector3.down;
@@ -69,6 +76,9 @@ public class TetrominoManager : MonoBehaviour
         return filledMinos[Mathf.RoundToInt(pos.x -.5f), Mathf.RoundToInt(pos.y-.5f)];
     }
 
+    public void gameOver(){
+        hasLost = true;
+    }
 
     private void newTetromino(){
         Tetromino go = Instantiate(TetrominoPrefabs[Random.Range(0,TetrominoPrefabs.Count)], new Vector3(4f,19f), new Quaternion()).GetComponent<Tetromino>();
@@ -76,6 +86,58 @@ public class TetrominoManager : MonoBehaviour
         activeTetromino = go;
         go.manager = this;
     }
+
+    private void holdTetromino(){
+        if(heldTetromino == null){
+            heldTetromino = activeTetromino;
+            newTetromino();
+            
+            for (int i = 0; i < 4; i++){
+                filledMinos[(int)(heldTetromino.minos[i].transform.position.x - .5f),(int)(heldTetromino.minos[i].transform.position.y - .5f)] = null;
+            }
+
+            heldTetromino.transform.position = new Vector3(-3.5f,15.5f);
+            heldTetromino.transform.rotation = new Quaternion();
+            heldTetromino.enabled = false;
+        } else {
+            //Perform the swap
+            var newHeldTetromino = activeTetromino;
+            activeTetromino = heldTetromino;
+            
+            //Prepare the tetromino
+            activeTetromino.enabled = true;
+            activeTetromino.timeScale = gameSpeed;
+            activeTetromino.manager = this;
+            activeTetromino.tickTime = 0;
+            activeTetromino.transform.position = new Vector3(4f,19f);
+           
+           //make the held tetromino the actual held tetromino and clean up
+            heldTetromino = newHeldTetromino;
+
+            for (int i = 0; i < 4; i++){
+                filledMinos[(int)(heldTetromino.minos[i].transform.position.x - .5f),(int)(heldTetromino.minos[i].transform.position.y - .5f)] = null;
+            }
+            heldTetromino.transform.position = new Vector3(-3.5f,15.5f);
+            heldTetromino.transform.rotation = new Quaternion();
+            heldTetromino.enabled = false;
+        }
+    }
+
+    private void Pause(){
+        if(!isPaused){
+            activeTetromino.enabled = false;
+            isPaused = true;
+            input.Tetris.Disable();
+        } else{
+            activeTetromino.enabled = true;
+            isPaused = false;
+            input.Tetris.Enable();
+        }
+    
+    }
+   #endregion
+   
+   #region Unity Functions
     private void Awake() {
         //Instantiate references
         input = new InputActions();
@@ -92,6 +154,9 @@ public class TetrominoManager : MonoBehaviour
             activeTetromino.timeScale /= 2;
         };
         input.Tetris.HardDrop.performed += _ => activeTetromino.hardDrop();
+        input.Tetris.Hold.performed += _ => holdTetromino();
+
+        input.Menu.Pause.performed += _ => Pause();
     }
     private void OnEnable() => input.Enable();
     private void OnDisable() => input.Disable();
@@ -102,6 +167,8 @@ public class TetrominoManager : MonoBehaviour
     }
 
     private void Update() {
+        if(hasLost)
+            return;
         //Spawns new tetromino when old one is done with its journey
         if(activeTetromino.isGrounded){
             newTetromino();
@@ -129,7 +196,6 @@ public class TetrominoManager : MonoBehaviour
             }
         }
     }
+
+    #endregion
 }
-
-
-

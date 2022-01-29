@@ -59,14 +59,6 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Pause"",
-                    ""type"": ""Button"",
-                    ""id"": ""c466a5dd-0652-49af-8c35-bc655f0c5cac"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
                     ""name"": ""Soft Drop"",
                     ""type"": ""Button"",
                     ""id"": ""56351f74-2a01-4882-8fbd-7f38a08cf31c"",
@@ -188,7 +180,34 @@ public class @InputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""3ae15ea7-b759-4d43-96fb-73f9c6437676"",
+                    ""id"": ""4af4a2ec-de76-46e6-b854-833b3550a63e"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Soft Drop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Menu"",
+            ""id"": ""f85f0af3-7112-4e4d-a6e1-b4f63157c08c"",
+            ""actions"": [
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""197149fc-e8d8-4b49-9838-b5ce2b6c55d7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""89355b15-6c42-4c41-9d00-070a2872cade"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -199,23 +218,12 @@ public class @InputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""40b63432-8bf5-416c-8bb2-11455dd11c33"",
+                    ""id"": ""ac517a8a-a618-472a-9eab-f1398a75b192"",
                     ""path"": ""<Keyboard>/f1"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""Pause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4af4a2ec-de76-46e6-b854-833b3550a63e"",
-                    ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Soft Drop"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -243,8 +251,10 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Tetris_HardDrop = m_Tetris.FindAction("Hard Drop", throwIfNotFound: true);
         m_Tetris_RotateCounterclockwise = m_Tetris.FindAction("Rotate Counterclockwise", throwIfNotFound: true);
         m_Tetris_Hold = m_Tetris.FindAction("Hold", throwIfNotFound: true);
-        m_Tetris_Pause = m_Tetris.FindAction("Pause", throwIfNotFound: true);
         m_Tetris_SoftDrop = m_Tetris.FindAction("Soft Drop", throwIfNotFound: true);
+        // Menu
+        m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
+        m_Menu_Pause = m_Menu.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -299,7 +309,6 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Tetris_HardDrop;
     private readonly InputAction m_Tetris_RotateCounterclockwise;
     private readonly InputAction m_Tetris_Hold;
-    private readonly InputAction m_Tetris_Pause;
     private readonly InputAction m_Tetris_SoftDrop;
     public struct TetrisActions
     {
@@ -310,7 +319,6 @@ public class @InputActions : IInputActionCollection, IDisposable
         public InputAction @HardDrop => m_Wrapper.m_Tetris_HardDrop;
         public InputAction @RotateCounterclockwise => m_Wrapper.m_Tetris_RotateCounterclockwise;
         public InputAction @Hold => m_Wrapper.m_Tetris_Hold;
-        public InputAction @Pause => m_Wrapper.m_Tetris_Pause;
         public InputAction @SoftDrop => m_Wrapper.m_Tetris_SoftDrop;
         public InputActionMap Get() { return m_Wrapper.m_Tetris; }
         public void Enable() { Get().Enable(); }
@@ -336,9 +344,6 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Hold.started -= m_Wrapper.m_TetrisActionsCallbackInterface.OnHold;
                 @Hold.performed -= m_Wrapper.m_TetrisActionsCallbackInterface.OnHold;
                 @Hold.canceled -= m_Wrapper.m_TetrisActionsCallbackInterface.OnHold;
-                @Pause.started -= m_Wrapper.m_TetrisActionsCallbackInterface.OnPause;
-                @Pause.performed -= m_Wrapper.m_TetrisActionsCallbackInterface.OnPause;
-                @Pause.canceled -= m_Wrapper.m_TetrisActionsCallbackInterface.OnPause;
                 @SoftDrop.started -= m_Wrapper.m_TetrisActionsCallbackInterface.OnSoftDrop;
                 @SoftDrop.performed -= m_Wrapper.m_TetrisActionsCallbackInterface.OnSoftDrop;
                 @SoftDrop.canceled -= m_Wrapper.m_TetrisActionsCallbackInterface.OnSoftDrop;
@@ -361,9 +366,6 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Hold.started += instance.OnHold;
                 @Hold.performed += instance.OnHold;
                 @Hold.canceled += instance.OnHold;
-                @Pause.started += instance.OnPause;
-                @Pause.performed += instance.OnPause;
-                @Pause.canceled += instance.OnPause;
                 @SoftDrop.started += instance.OnSoftDrop;
                 @SoftDrop.performed += instance.OnSoftDrop;
                 @SoftDrop.canceled += instance.OnSoftDrop;
@@ -371,6 +373,39 @@ public class @InputActions : IInputActionCollection, IDisposable
         }
     }
     public TetrisActions @Tetris => new TetrisActions(this);
+
+    // Menu
+    private readonly InputActionMap m_Menu;
+    private IMenuActions m_MenuActionsCallbackInterface;
+    private readonly InputAction m_Menu_Pause;
+    public struct MenuActions
+    {
+        private @InputActions m_Wrapper;
+        public MenuActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Pause => m_Wrapper.m_Menu_Pause;
+        public InputActionMap Get() { return m_Wrapper.m_Menu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MenuActions set) { return set.Get(); }
+        public void SetCallbacks(IMenuActions instance)
+        {
+            if (m_Wrapper.m_MenuActionsCallbackInterface != null)
+            {
+                @Pause.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnPause;
+            }
+            m_Wrapper.m_MenuActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
+            }
+        }
+    }
+    public MenuActions @Menu => new MenuActions(this);
     private int m_KeyboardSchemeIndex = -1;
     public InputControlScheme KeyboardScheme
     {
@@ -387,7 +422,10 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnHardDrop(InputAction.CallbackContext context);
         void OnRotateCounterclockwise(InputAction.CallbackContext context);
         void OnHold(InputAction.CallbackContext context);
-        void OnPause(InputAction.CallbackContext context);
         void OnSoftDrop(InputAction.CallbackContext context);
+    }
+    public interface IMenuActions
+    {
+        void OnPause(InputAction.CallbackContext context);
     }
 }

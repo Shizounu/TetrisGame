@@ -6,7 +6,7 @@ using System.Linq;
 
 public class Tetromino : MonoBehaviour
 {
-    [SerializeField] private float tickTime;
+    public float tickTime;
     public float timeScale;
     public bool isGrounded = false;
     public GameObject[] minos;
@@ -74,7 +74,6 @@ public class Tetromino : MonoBehaviour
     }
 
     private void Update(){
-        
         if (!isGrounded){
             tickTime += Time.deltaTime * timeScale;
             if (tickTime >= 1){
@@ -88,6 +87,15 @@ public class Tetromino : MonoBehaviour
                     manager.updateBoard(this);
                 }
             }
+        }
+    
+        if(isGrounded){
+            for (int i = 0; i < minos.Length; i++){
+                if(minos[i].transform.position.y > 20){
+                    manager.gameOver();
+                }
+            }
+            this.enabled = false;
         }
     }
 }
