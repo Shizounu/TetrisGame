@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using System.Linq;
+using TMPro;
 public class TetrominoManager : MonoBehaviour
 {
    #region variables
@@ -93,7 +93,8 @@ public class TetrominoManager : MonoBehaviour
             newTetromino();
             
             for (int i = 0; i < 4; i++){
-                filledMinos[(int)(heldTetromino.minos[i].transform.position.x - .5f),(int)(heldTetromino.minos[i].transform.position.y - .5f)] = null;
+                if((heldTetromino.minos[i].transform.position.y - .5f) < 20)
+                    filledMinos[(int)(heldTetromino.minos[i].transform.position.x - .5f),(int)(heldTetromino.minos[i].transform.position.y - .5f)] = null;
             }
 
             heldTetromino.transform.position = new Vector3(-3.5f,15.5f);
@@ -115,7 +116,8 @@ public class TetrominoManager : MonoBehaviour
             heldTetromino = newHeldTetromino;
 
             for (int i = 0; i < 4; i++){
-                filledMinos[(int)(heldTetromino.minos[i].transform.position.x - .5f),(int)(heldTetromino.minos[i].transform.position.y - .5f)] = null;
+                if((heldTetromino.minos[i].transform.position.y - .5f) < 20)
+                    filledMinos[(int)(heldTetromino.minos[i].transform.position.x - .5f),(int)(heldTetromino.minos[i].transform.position.y - .5f)] = null;
             }
             heldTetromino.transform.position = new Vector3(-3.5f,15.5f);
             heldTetromino.transform.rotation = new Quaternion();
@@ -169,6 +171,7 @@ public class TetrominoManager : MonoBehaviour
     private void Update() {
         if(hasLost)
             return;
+
         //Spawns new tetromino when old one is done with its journey
         if(activeTetromino.isGrounded){
             newTetromino();
@@ -198,4 +201,16 @@ public class TetrominoManager : MonoBehaviour
     }
 
     #endregion
+
+    #region UI
+
+    public TextMeshProUGUI ScoreText;
+    
+    private void OnGUI() {
+        ScoreText.text = $"Score: {destroyedLines}";
+    }
+    #endregion
+
+
+
 }
