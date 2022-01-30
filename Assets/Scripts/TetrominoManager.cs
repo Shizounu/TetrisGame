@@ -22,7 +22,7 @@ public class TetrominoManager : MonoBehaviour
 
     #endregion
 
-   #region GameManagment managment
+   #region GameManagment
     public void updateBoard(Tetromino tetromino){
         bool boardDirty = false;
         //Delete the old minos of the previous iteration
@@ -42,6 +42,7 @@ public class TetrominoManager : MonoBehaviour
             if(isLineFilled){
                 boardDirty = true;
                 destroyedLines++;
+                OnLineClear();
                 for (int x = 0; x < 10; x++)
                     Destroy(filledMinos[x, y].gameObject);
             
@@ -81,10 +82,16 @@ public class TetrominoManager : MonoBehaviour
     }
 
     private void newTetromino(){
+
         Tetromino go = Instantiate(TetrominoPrefabs[Random.Range(0,TetrominoPrefabs.Count)], new Vector3(4f,19f), new Quaternion()).GetComponent<Tetromino>();
         go.timeScale = gameSpeed;
         activeTetromino = go;
         go.manager = this;
+
+        //Subscribe to audio events
+        activeTetromino.OnMove += OnMove;
+        activeTetromino.OnLand += OnLand;
+        activeTetromino.OnRotate += OnRotate;
     }
 
     private void holdTetromino(){
@@ -144,16 +151,19 @@ public class TetrominoManager : MonoBehaviour
         //Instantiate references
         input = new InputActions();
         filledMinos = new Transform[10,20];
-
+        Tetromino aTetromino = null;
+        //Subscribe to input events
         input.Tetris.Move.performed += ctx => activeTetromino.shift((int)ctx.ReadValue<float>());
         input.Tetris.RotateClockwise.performed += _ => activeTetromino.rotateClockwise();
         input.Tetris.RotateCounterclockwise.performed += _ => activeTetromino.rotateCounterClockwise();
 
         input.Tetris.SoftDrop.performed += _ => { 
+            aTetromino = activeTetromino;
             activeTetromino.timeScale *= 2;
         };
         input.Tetris.SoftDrop.canceled += _ => {
-            activeTetromino.timeScale /= 2;
+            if(aTetromino == activeTetromino)
+                activeTetromino.timeScale /= 2;
         };
         input.Tetris.HardDrop.performed += _ => activeTetromino.hardDrop();
         input.Tetris.Hold.performed += _ => holdTetromino();
@@ -202,15 +212,33 @@ public class TetrominoManager : MonoBehaviour
 
     #endregion
 
-    #region UI
+   #region UI
 
-    public TextMeshProUGUI ScoreText;
+   public TextMeshProUGUI ScoreText;
     
-    private void OnGUI() {
-        ScoreText.text = $"Score: {destroyedLines}";
+   private void OnGUI() {
+       ScoreText.text = $"Score: {destroyedLines}";
+   }
+   #endregion
+
+    #region Audio event stuff
+    [Header("Audio References")]
+    public AudioSource MoveSound;
+    public AudioSource LandSound;
+    public AudioSource RotateSound;
+    public AudioSource LineClearSound;
+    public void OnMove(){
+        MoveSound.Play();
+    }
+    public void OnLand(){
+        LandSound.Play();
+    }
+    public void OnRotate(){
+        RotateSound.Play();
+    }
+    public void OnLineClear(){
+        LineClearSound.Play();
     }
     #endregion
-
-
 
 }

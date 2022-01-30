@@ -37,30 +37,37 @@ public class Tetromino : MonoBehaviour
     public void rotateClockwise(){
         transform.Rotate(new Vector3(0,0,90));
         transform.position = new Vector3(Mathf.RoundToInt(transform.position.x),Mathf.RoundToInt(transform.position.y));
-
+        
         if(!isTetrominoPositionValid()){
             transform.Rotate(new Vector3(0,0,-90));
             Debug.Log("I hit a wall while rotating clockwise");
-        }else
+        }else{
             manager.updateBoard(this);
+            OnRotate?.Invoke();
+        }
     }
     public void rotateCounterClockwise(){
         transform.Rotate(new Vector3(0,0,-90));
         transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), transform.position.y);
-
+        
         if(!isTetrominoPositionValid()){
             transform.Rotate(new Vector3(0,0,90));
             Debug.Log("I hit a wall while rotating clockwise");
-        }else
+        }else{
             manager.updateBoard(this);
+            OnRotate?.Invoke();
+        }
     }
     //moves the object left/right
     public void shift(int dir){
         transform.position += new Vector3(dir,0,0);
+        
         if(!isTetrominoPositionValid()){
             transform.position -= new Vector3(dir,0,0);
-        }else
+        }else{
             manager.updateBoard(this);
+    	    OnMove?.Invoke();
+        }
 
     }
     
@@ -90,6 +97,7 @@ public class Tetromino : MonoBehaviour
         }
     
         if(isGrounded){
+            OnLand?.Invoke();
             for (int i = 0; i < minos.Length; i++){
                 if(minos[i].transform.position.y > 20){
                     manager.gameOver();
@@ -98,4 +106,14 @@ public class Tetromino : MonoBehaviour
             this.enabled = false;
         }
     }
+
+
+
+    #region Audio events
+    public delegate void AudioHandler();
+
+    public event AudioHandler OnMove;
+    public event AudioHandler OnRotate;
+    public event AudioHandler OnLand;
+    #endregion
 }
