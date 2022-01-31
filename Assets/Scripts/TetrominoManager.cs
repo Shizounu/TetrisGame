@@ -119,7 +119,7 @@ public class TetrominoManager : MonoBehaviour
                     filledMinos[(int)(heldTetromino.minos[i].transform.position.x - .5f),(int)(heldTetromino.minos[i].transform.position.y - .5f)] = null;
             }
 
-            heldTetromino.transform.position = new Vector3(-3.5f,15.5f);
+            heldTetromino.transform.position = new Vector3(-7.5f,12.5f);
             heldTetromino.transform.rotation = new Quaternion();
             heldTetromino.enabled = false;
         } else {
