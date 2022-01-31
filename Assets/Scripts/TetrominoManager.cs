@@ -9,17 +9,20 @@ public class TetrominoManager : MonoBehaviour
     [Header("Working Variables")]
     public Tetromino heldTetromino;
     public Tetromino activeTetromino;  
+    public Tetromino nextTetromino;
     public float gameSpeed{
         get{return (1 + (destroyedLines / 15));}
     }
     public bool hasLost = false;
     public float destroyedLines = 0;
+    public float score;
     public bool isPaused = false;
+
+
     [Header("References")]
     public InputActions input;
     public List<GameObject> TetrominoPrefabs;
     public Transform[,] filledMinos;
-
     #endregion
 
    #region GameManagment
@@ -50,7 +53,7 @@ public class TetrominoManager : MonoBehaviour
                     for (int x = 0; x < 10; x++){
                         if(y1 + 1 < 20){
                             filledMinos[x,y1] = filledMinos[x,y1+1];
-                            if(filledMinos[x,y1] != null)
+                            if(filledMinos[x,y1] != null && filledMinos[x,y1].parent != activeTetromino)
                                 filledMinos[x,y1].position += Vector3.down;
                         }
                         else
@@ -82,21 +85,33 @@ public class TetrominoManager : MonoBehaviour
     }
 
     private void newTetromino(){
+        if(nextTetromino == null || nextTetromino == activeTetromino){
+            //Prepare next Tetromino
+            Tetromino go = Instantiate(TetrominoPrefabs[Random.Range(0,TetrominoPrefabs.Count)], new Vector3(15.5f,12.5f), new Quaternion()).GetComponent<Tetromino>();
+            go.timeScale = gameSpeed;
+            go.manager = this;
+            go.enabled = false;
+            nextTetromino = go;
+        }
 
-        Tetromino go = Instantiate(TetrominoPrefabs[Random.Range(0,TetrominoPrefabs.Count)], new Vector3(4f,19f), new Quaternion()).GetComponent<Tetromino>();
-        go.timeScale = gameSpeed;
-        activeTetromino = go;
-        go.manager = this;
+        if(activeTetromino == null || activeTetromino.isGrounded){
+            //prepare new Tetromino
+            activeTetromino = nextTetromino;
+            newTetromino();
+            activeTetromino.transform.position = new Vector3(4,18);
+            activeTetromino.enabled = true;
+            //Subscribe to audio events
+            activeTetromino.OnMove += OnMove;
+            activeTetromino.OnLand += OnLand;
+            activeTetromino.OnRotate += OnRotate;
 
-        //Subscribe to audio events
-        activeTetromino.OnMove += OnMove;
-        activeTetromino.OnLand += OnLand;
-        activeTetromino.OnRotate += OnRotate;
+        } 
     }
 
     private void holdTetromino(){
         if(heldTetromino == null){
             heldTetromino = activeTetromino;
+            activeTetromino = null;
             newTetromino();
             
             for (int i = 0; i < 4; i++){
@@ -117,7 +132,7 @@ public class TetrominoManager : MonoBehaviour
             activeTetromino.timeScale = gameSpeed;
             activeTetromino.manager = this;
             activeTetromino.tickTime = 0;
-            activeTetromino.transform.position = new Vector3(4f,19f);
+            activeTetromino.transform.position = new Vector3(4f,18);
            
            //make the held tetromino the actual held tetromino and clean up
             heldTetromino = newHeldTetromino;
@@ -131,7 +146,6 @@ public class TetrominoManager : MonoBehaviour
             heldTetromino.enabled = false;
         }
     }
-
     private void Pause(){
         if(!isPaused){
             activeTetromino.enabled = false;
